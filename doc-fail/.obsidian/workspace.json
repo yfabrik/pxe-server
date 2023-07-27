@@ -1,0 +1,212 @@
+{
+  "main": {
+    "id": "fde3e1da691b4b5e",
+    "type": "split",
+    "children": [
+      {
+        "id": "658b928cab6ee135",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9f46bb014800eaa3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "compte rendu.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "b3ff9e580fd109b8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "compte rendu.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "397161e8991d3919",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "2023-06-19.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f51f07b18c2fe626",
+    "type": "split",
+    "children": [
+      {
+        "id": "fea25809c427c3b0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b724ddd59732a9a6",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "32955548160be18d",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "2e028cae81f32ebd",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          },
+          {
+            "id": "8c73bd4a3a4accbf",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "d619c0c3fcba4da7",
+    "type": "split",
+    "children": [
+      {
+        "id": "ad26e9fe8b6aeeba",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "17cd6144401c017c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "2023-06-19.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "69484989f42dd16b",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "2023-06-19.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "edc8066ba11530b7",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "cf767cb67885a5d8",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "2023-06-19.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Ouvrir le sélecteur rapide": false,
+      "graph:Ouvrir la vue graphique": false,
+      "canvas:Créer une nouvelle toile": false,
+      "daily-notes:Ouvrir la note quotidienne": false,
+      "templates:Insérer le modèle": false,
+      "command-palette:Ouvrir la palette de commandes": false
+    }
+  },
+  "active": "397161e8991d3919",
+  "lastOpenFiles": [
+    "2023-06-07.md",
+    "2023-06-19.md",
+    "Sans titre.md",
+    "activation license.md",
+    "compte rendu.md",
+    "unattend.xml.md",
+    "layoutModification.xml.md",
+    "creer le srvpxe.md",
+    "custom .wim.md",
+    "DefaultLayout.xml.md",
+    "dism.md",
+    "dism cheatsheet.md",
+    "install from usb.md",
+    "ipxe classic.md",
+    "ordre.md",
+    "PI-hole.md",
+    "pxelinux.md",
+    "scripts.md",
+    "sysprep.md",
+    "utiliser winpe.md",
+    "winPE.md",
+    "creation serveur pxe.md",
+    "creation windows custom.md",
+    "apply-image file.md",
+    "2023-03-15.md",
+    "2023-04-05.md",
+    "Untitled.canvas"
+  ]
+}
