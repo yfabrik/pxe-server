@@ -16,7 +16,7 @@ echo **********************************************************************
 wpeutil UpdateBootInfo
 @echo Formatting the primary disk...
 
-diskpart /s Y:\scripts\external\bios\CreatePartitions-BIOS.txt
+diskpart /s %~dp0\bios\CreatePartitions-BIOS.txt
 
 @echo *********************************************************************
 @echo  == Apply the image to the Windows partition ==

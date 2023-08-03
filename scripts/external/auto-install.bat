@@ -28,8 +28,8 @@ for /f "tokens=2* delims=	 " %%A in ('reg query HKLM\System\CurrentControlSet\Co
 @echo Formatting the primary disk...
 @if %Firmware%==0x1 echo    ...using BIOS (MBR) format and partitions.
 @if %Firmware%==0x2 echo    ...using UEFI (GPT) format and partitions. 
-@if %Firmware%==0x1 diskpart /s Y:\scripts\external\bios\CreatePartitions-BIOS.txt
-@if %Firmware%==0x2 diskpart /s Y:\scripts\external\uefi\CreatePartitions-UEFI.txt 
+@if %Firmware%==0x1 diskpart /s %~dp0\bios\CreatePartitions-BIOS.txt
+@if %Firmware%==0x2 diskpart /s %~dp0\uefi\CreatePartitions-UEFI.txt 
 
 @echo *********************************************************************
 @echo  == Apply the image to the Windows partition ==

@@ -24,7 +24,7 @@ for /f "tokens=2* delims=	 " %%A in ('reg query HKLM\System\CurrentControlSet\Co
 @if x%Firmware%==x goto END
 @echo *********************************************************************
 @echo Formatting the primary disk...
-diskpart /s Y:\scripts\external\uefi\CreatePartitions-UEFI.txt 
+diskpart /s %~dp0\uefi\CreatePartitions-UEFI.txt 
 @echo *********************************************************************
 @echo  == Apply the image to the Windows partition ==
 dism /Apply-Image /ImageFile:%1 /Index:1 /ApplyDir:W:\
