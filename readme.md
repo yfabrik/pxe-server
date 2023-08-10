@@ -53,7 +53,12 @@ generer le fichier .wim image de l'install windows
 
 
 ## installation windows custom
+on file des fichier au moment du boot sur winpe
+soit 1 startnet.cmd
+soit winpeshl.ini et un install_*.bat (le winpeshl.ini lance install.bat, c'est le install_* qui à été rename au moment du boot)
 
+#### version clé usb
+https://github.com/yfabrik/scripts-install-windows
 
 ## customisation post install
 les fichier pourrait etre inclu directement dans le fichier .wim, mais ça nécéssite de le modifier a chaque fois que je change un petit truc
