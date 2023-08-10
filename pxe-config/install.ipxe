@@ -11,14 +11,10 @@ menu
 item --gap --           -------------WINPE----------------
 item winpe           	winpe	
 item massdriver		winpe avec mass de driver
-item acer		winpe pour les acer
-item install_acer	install ++ acer
-item tmp		tmp
+
 item --gap --           -------------INSTALL WINDOWS AUTO----------------
 item famille		auto install PC Famille
-item famille-bios	auto install PC famille en BIOS
-item famille-uefi	auto install PC famille en UEFI
-item install-withapp	auto install window avec MAJ et APPS
+item bureau	        auto install PC Bureau
 item --gap --           -------------LINUX----------------
 item mint      		linux mint
 item kali		kali linux
@@ -33,33 +29,17 @@ choose --timeout ${menu-timeout} --default ${menu-default} target && goto ${targ
 
 :winpe
 kernel ${server_ip}/wimboot
-initrd ${disks}/winPE/winpefr/Boot/BCD		BCD
-initrd ${disks}/winPE/winpefr/Boot/boot.sdi	boot.sdi
-initrd ${disks}/winPE/winpefr/sources/boot.wim	boot.wim
+initrd --name BCD ${disks}/winPE/winpefr/Boot/BCD BCD
+initrd --name boot.sdi ${disks}/winPE/winpefr/Boot/boot.sdi	boot.sdi
+initrd --name boot.wim ${disks}/winPE/winpefr/sources/boot.wim boot.wim
 boot
 
 :massdriver
 kernel ${server_ip}/wimboot
-initrd ${disks}/winPE/winpe_massdriver/Boot/BCD		BCD
-initrd ${disks}/winPE/winpe_massdriver/Boot/boot.sdi	boot.sdi
-initrd ${disks}/winPE/winpe_massdriver/sources/boot.wim	boot.wim
+initrd --name BCD ${disks}/winPE/winpe_massdriver/Boot/BCD BCD
+initrd --name boot.sdi ${disks}/winPE/winpe_massdriver/Boot/boot.sdi boot.sdi
+initrd --name boot.wim ${disks}/winPE/winpe_massdriver/sources/boot.wim boot.wim
 boot
-
-:acer
-kernel ${server_ip}/wimboot
-initrd ${disks}/winPE/winpe_acer/Boot/BCD		BCD
-initrd ${disks}/winPE/winpe_acer/Boot/boot.sdi		boot.sdi
-initrd ${disks}/winPE/winpe_acer/sources/boot.wim	boot.wim
-boot
-
-:install_acer
-initrd ${scripts}/install_withapp.bat		install.bat
-initrd ${scripts}/winpeshl.ini   		winpeshl.ini
-goto acer
-
-:tmp
-chain boot/pxeboot.n12 || goto failed
-## chain tftp://192.168.1.250/boot/pxeboot.n12
 
 :mint
 kernel ${disks}/linux/mint-21.2/casper/vmlinuz
@@ -73,24 +53,12 @@ initrd ${server_ip}/kali/live/initrd.img
 imgargs vmlinuz initrd=initrd root=/dev/nfs boot=live netboot=nfs nfsroot=192.168.1.250:/srv/tftpboot/samba/install/disks/linux/kali ip=dhcp --
 boot
 
-:install-withapp
-initrd ${scripts}/install_withapp.bat		install.bat
-initrd ${scripts}/winpeshl.ini   		winpeshl.ini
+:bureau
+initrd --name startnet.cmd ${scripts}/startnet-bureau.cmd startnet.cmd
 goto massdriver
 
 :famille
-initrd ${scripts}/install_famille.bat		install.bat
-initrd ${scripts}/winpeshl.ini			winpeshl.ini
-goto massdriver
-
-:famille-uefi
-initrd ${scripts}/install_famille_uefi.bat	install.bat
-initrd ${scripts}/winpeshl.ini			winpeshl.ini
-goto massdriver
-
-:famille-bios
-initrd ${scripts}/install_famille_bios.bat	install.bat
-initrd ${scripts}/winpeshl.ini			winpeshl.ini
+initrd --name startnet.cmd ${scripts}/startnet-famille.cmd startnet.cmd
 goto massdriver
 
 :pxelinux
