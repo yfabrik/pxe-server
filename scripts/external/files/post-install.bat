@@ -9,3 +9,4 @@ schtasks /delete /tn "\Microsoft\Windows\Customer Experience Improvement Program
 
 :: password never expire
 net accounts /MAXPWAGE:UNLIMITED
+wmic UserAccount set PasswordExpires=False
