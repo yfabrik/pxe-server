@@ -37,7 +37,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "2023-08-03.md",
+                "file": "2023-04-05.md",
                 "mode": "source",
                 "source": false
               }
@@ -118,7 +118,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "2023-08-03.md",
+                "file": "2023-04-05.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -135,7 +135,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "2023-08-03.md",
+                "file": "2023-04-05.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -158,7 +158,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "2023-08-03.md"
+                "file": "2023-04-05.md"
               }
             }
           }
@@ -181,6 +181,7 @@
   },
   "active": "397161e8991d3919",
   "lastOpenFiles": [
+    "2023-08-03.md",
     "2023-06-19.md",
     "2023-06-07.md",
     "Sans titre.md",
@@ -206,7 +207,6 @@
     "creation windows custom.md",
     "apply-image file.md",
     "2023-03-15.md",
-    "2023-04-05.md",
     "Untitled.canvas"
   ]
 }
