@@ -15,7 +15,7 @@ pihole = serveur DNS et DHCP (c'est le serveur DHCP qui permet de fournir les in
 
 ### activer dir-listing de lighthttpd 
 pour pouvoir telecharger les fichier du serveur web
-`lighthttpd-enable-mod`  
+`lighttpd-enable-mod`  
 choisir dir-listing
 
 
