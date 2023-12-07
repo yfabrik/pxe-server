@@ -1,4 +1,9 @@
-install 
+# winPE
+windows pre execution environnement
+c'est un windows allégé qui peut etre utilisé avec un clé bootable comme pour linux
+
+## creer winPE
+powershell admin : installer windows adk
 ```powershell
 winget install -e --id Microsoft.WindowsADK;winget install -e --id Microsoft.ADKPEAddon
 ```
@@ -9,13 +14,15 @@ open  **Environnement de déploiement et d’outils de création d’images** en
 copype amd64 C:\WinPE_amd64
 ```
 
-
-mount .wim
+retour dans powershell
+- mount image
 ```powershell
 Dism /Mount-Image /ImageFile:"C:\WinPE_amd64\media\sources\boot.wim" /index:1 /MountDir:"C:\WinPE_amd64\mount"
 ```
 
-add drivers
+- add drivers 
+(optionnel, et ça peut ne pas servir,
+y'a des pc qui ont pas le pilote de la carte réseaux meme comme ça )
 ```powershell
 #get drivers from current windows
 Export-WindowsDriver -online -destination c:\drivers
@@ -24,7 +31,7 @@ Export-WindowsDriver -online -destination c:\drivers
 Dism /Add-Driver /Image:"C:\WinPE_amd64\mount" /Driver:"C:\drivers" /recurse
 ```
 
-change lang 
+- change langue 
 ```powershell
 
 Dism /Add-Package /Image:"C:\WinPE_amd64\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\fr-fr\lp.cab"
@@ -32,16 +39,19 @@ Dism /Add-Package /Image:"C:\WinPE_amd64\mount" /PackagePath:"C:\Program Files (
 Dism /Set-AllIntl:fr-FR /Image:"C:\WinPE_amd64\mount"
 ```
 
-unmount
+- unmount image
 ```powershell
 Dism /Unmount-Image /MountDir:"C:\WinPE_amd64\mount" /commit
 ```
 use /discard au lieu de /commit si on veut pas garder ce qu'on a fait
 
-faire une iso
+
+pour le serveur on copie le dossier `C:\WinPE_amd64\media` dans tftpboot (emplacement=install.ipxe)    
+pour le serveur on copy le contenu de `C:\WinPE_amd64\media` quelque part dans tftpboot, là ou install.ipxe le cherche
+  
+pour la clé usb : faire une iso  
 **Environnement de déploiement et d’outils de création d’images**
 ```cmd
 MakeWinPEMedia /ISO C:\WinPE_amd64 C:\WinPE_amd64\WinPE_amd64.iso
 ```
 
-pour le serveur on copy le contenu de `C:\WinPE_amd64\media` quelque part dans tftpboot, là ou install.ipxe le cherche

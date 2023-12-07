@@ -6,53 +6,57 @@ permet de démarrer un PC à partir de la carte réseaux et d'installer automati
 ### prerequis :
 - serveur ubuntu
 - ip fixe sur le serveur ubuntu(editer netplan)
+- wget, curl, git, build-essential   ``apt install wget curl build-essential git``
 
 ### installer pihole
 https://pi-hole.net/  
-`curl -sSL https://install.pi-hole.net | bash`  
+```curl -sSL https://install.pi-hole.net | bash```  
 pihole = serveur DNS et DHCP (c'est le serveur DHCP qui permet de fournir les info pour démarrer à partir du réseau)
 
 
-### activer dir-listing de lighthttpd 
-pour pouvoir telecharger les fichier du serveur web
-`lighttpd-enable-mod`  
+### activer dir-listing de lighttpd 
+pour pouvoir telecharger les fichier du serveur web  
+```lighttpd-enable-mod```  
 choisir dir-listing
 
 
 ### setup du serveur DHCP
 [20-pxeconfig.conf](pxe-config/20-pxeconfig.conf) copy dans /etc/dnsmaq.d  
-[install.ipxe](pxe-config/install.ipxe) copy dans /var/www/html
-regler pihole avec dhcp activé
+[install.ipxe](pxe-config/install.ipxe) copy dans /var/www/html  
+```
+wget -P /etc/dnsmasq.d/ https://raw.githubusercontent.com/yfabrik/pxe-server/main/pxe-config/20-pxeconfig.conf   
+wget -P /var/www/html/ https://raw.githubusercontent.com/yfabrik/pxe-server/main/pxe-config/install.ipx
+```
+
+dans l'interface web de pihole activer le dhcp (setting>DHCP>enabled set range)
 
 ### creer /srv/tftpboot
-`sudo mkdir -p /srv/tftpboot`
+l'endroit ou le serveur pxe va aller chercher les fichier  
+```sudo mkdir -p /srv/tftpboot```
 ### symlink dans serveur web
-`sudo ln -s /var/lib/tftpboot /var/www/html/tftpboot`
+pour que tftpboot soit accessible depuis le serveur web  
+```sudo ln -s /srv/tftpboot /var/www/html/tftpboot```
 
 ### generer les boot ipxe
-undionly.kpxe
-ipxe.efi
-wimboot
-les mettre dans tftpboot
-wimboot:
-wget https://github.com/ipxe/wimboot/releases/latest/download/wimboot
+undionly.kpxe, ipxe.efi, wimboot  
+les mettre dans tftpboot  
+wimboot:  
+```wget -P /srv/tftpboot https://github.com/ipxe/wimboot/releases/latest/download/wimboot```
 
 https://github.com/ipxe/wimboot
 
-git clone https://github.com/ipxe/ipxe
-cd ipxe/src
-pour bios `make bin/undionly.kpxe`
-pour uefi `make bin-x86_64-efi/ipxe.efi`
-
-https://ipxe.org/appnote/buildtargets
-https://ipxe.org/download
-
+pour les 2 autres il faut les build:
 ```
 git clone https://github.com/ipxe/ipxe.git
 cd ipxe/src
-make bin/undionly.kpxe
-make bin-x86_64-efi/ipxe.efi
+make bin/undionly.kpxe ##bios
+make bin-x86_64-efi/ipxe.efi ##uefi
+sudo cp {bin/undionly.kpxe,bin-x86_64-efi/ipxe.efi} /srv/tftpboot/
 ```
+
+https://ipxe.org/appnote/buildtargets  
+https://ipxe.org/download
+
 
 ## winPE
 
