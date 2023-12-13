@@ -1,8 +1,22 @@
 # serveur PXE pour auto install windows
 permet de démarrer un PC à partir de la carte réseaux et d'installer automatiquement une image personnalisé de windows 
 
+- [serveur PXE pour auto install windows](#serveur-pxe-pour-auto-install-windows)
+  - [SERVEUR HOW TO](#serveur-how-to)
+    - [prerequis :](#prerequis-)
+    - [installer pihole](#installer-pihole)
+    - [activer dir-listing de lighttpd](#activer-dir-listing-de-lighttpd)
+    - [setup du serveur DHCP](#setup-du-serveur-dhcp)
+    - [creer /srv/tftpboot](#creer-srvtftpboot)
+    - [symlink dans serveur web](#symlink-dans-serveur-web)
+    - [generer les boot ipxe](#generer-les-boot-ipxe)
+  - [winPE](#winpe)
+  - [customisation de windows](#customisation-de-windows)
+  - [installation windows custom](#installation-windows-custom)
+      - [version clé usb](#version-clé-usb)
+  - [customisation post install](#customisation-post-install)
 
-## HOW TO
+## SERVEUR HOW TO
 ### prerequis :
 - serveur ubuntu
 - ip fixe sur le serveur ubuntu(editer netplan)
@@ -59,12 +73,13 @@ https://ipxe.org/download
 
 
 ## winPE
-
 [utiliser winPE](winpe.md)
 
 pour le serveur on copy le contenu de `C:\WinPE_amd64\media` quelque part dans tftpboot, là ou install.ipxe le cherche
 
 ## customisation de windows
+
+[personnalisation windows](windows-personnalisé.md)  
 fresh install windows + update + programme
 run Sysprep dans `c:\windows\system32\sysprep` audit mode + redemmarer
 on est sur le compte admin local on delete le compte utilisateur qu'on utilisait 
