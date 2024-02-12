@@ -1,5 +1,5 @@
 # winPE
-windows pre execution environnement
+windows pre execution environnement  
 c'est un windows allégé qui peut etre utilisé avec un clé bootable comme pour linux
 
 ## creer winPE

@@ -35,14 +35,14 @@ choisir dir-listing
 
 
 ### setup du serveur DHCP
-[20-pxeconfig.conf](pxe-config/20-pxeconfig.conf) copy dans /etc/dnsmaq.d  
-[install.ipxe](pxe-config/install.ipxe) copy dans /var/www/html  
+[20-pxeconfig.conf](pxe-config/20-pxeconfig.conf) copy dans /etc/dnsmaq.d,  
+[install.ipxe](pxe-config/install.ipxe) copy dans /var/www/html:  
 ```
 wget -P /etc/dnsmasq.d/ https://raw.githubusercontent.com/yfabrik/pxe-server/main/pxe-config/20-pxeconfig.conf   
-wget -P /var/www/html/ https://raw.githubusercontent.com/yfabrik/pxe-server/main/pxe-config/install.ipx
+wget -P /var/www/html/ https://raw.githubusercontent.com/yfabrik/pxe-server/main/pxe-config/install.ipxe
 ```
 
-dans l'interface web de pihole activer le dhcp (setting>DHCP>enabled set range)
+dans l'interface web de pihole activer le dhcp (setting>DHCP>enable et definir range,gateway et ajouter un domain genre "fabrik.lan" parce que c'est bien de pouvoir acceder au serveur avec le nom )
 
 ### creer /srv/tftpboot
 l'endroit ou le serveur pxe va aller chercher les fichier  
@@ -80,18 +80,19 @@ pour le serveur on copy le contenu de `C:\WinPE_amd64\media` quelque part dans t
 ## customisation de windows
 
 [personnalisation windows](windows-personnalisé.md)  
-fresh install windows + update + programme
-run Sysprep dans `c:\windows\system32\sysprep` audit mode + redemmarer
-on est sur le compte admin local on delete le compte utilisateur qu'on utilisait 
-rerun sysprep OOBE +shutdown
-boot sur winpe 
-generer le fichier .wim image de l'install windows
+- fresh install windows + update + programme  
+- run Sysprep dans `c:\windows\system32\sysprep` audit mode + redemmarer  
+- on est sur le compte admin local on delete le compte utilisateur qu'on utilisait   
+- rerun sysprep OOBE +shutdown
+- boot sur winpe 
+- generer le fichier .wim image de l'install windows
 
 
 ## installation windows custom
-on file des fichier au moment du boot sur winpe
-soit 1 startnet.cmd
-soit winpeshl.ini et un install_*.bat (le winpeshl.ini lance install.bat, c'est le install_* qui à été rename au moment du boot)
+on donne des fichier au moment du boot sur winpe  
+au choix: 
+  - 1 startnet.cmd
+  - winpeshl.ini et un install_*.bat (le winpeshl.ini lance install.bat, c'est le install_* qui à été rename au moment du boot)
 
 #### version clé usb
 https://github.com/yfabrik/scripts-install-windows
