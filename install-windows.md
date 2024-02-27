@@ -21,29 +21,46 @@ mais j'ai l'impression que si le fichier s'appelle autounattend.xml windows boot
 
 # ajouter des scripts à executer au premier demmarage de windows dans autounatend.xml > firstlogon
 
-# utiliser des image custom
-voir le repo pour ça
+# utiliser des images custom
+[windows-personnalisé.md](custom image)
 
 # boot from network
 
 
-#active license
+# activer license
 le pc license doit et le pc à activer doivent etre branché sur le meme réseau
 ## la version foireuse de base 
 - utiliser la clé usb sur le pc à activer
 - run marxpress
 - mettre la clé sur le pc license
-- copier le fichier du dossier output de la clé usb dans le dossier ???
-- le logiciel d'activation: import , valider
+- copier le fichier du dossier output de la clé usb dans le dossier par defaut import de l'app du pc licence'
+- le logiciel d'activation: import -> importer les clés , CBR by keys -> valider
 
 ## version actuelle 
 - ouvrir powershell
 ```powershell
 iwr -useb http://srvpxe/activation.ps1 |iex
 ```
-- logiciel activation import , valider
+- le logiciel d'activation: import -> importer les clés , CBR by keys -> valider
 
 
 ## how to version actuelle
 dossier partagé sur samba avec le contenu de la clé usb
 script sur le serveur web qui permet de verifier/ouvrir powershell en admin + monte le dossier partagé + execute le script de la clé
+```powershell
+# Get identity of script user
+$identity = [Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()
+
+# Elevate the script if not already
+if ($identity.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host -F Green 'ELEVATED'
+} else {
+    Start-Process PowerShell -Verb RunAs "-NoProfile -noexit -command & iwr -useb http://srvpxe/activation.ps1 |iex"
+    Exit
+}
+
+set-executionpolicy bypass -scope process
+New-PSDrive -Name "L" -PSProvider "FileSystem" -Root "\\serveur\license"
+L:\Script\run.ps1
+
+```
