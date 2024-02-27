@@ -22,7 +22,7 @@ mais j'ai l'impression que si le fichier s'appelle autounattend.xml windows boot
 # ajouter des scripts à executer au premier demmarage de windows dans autounatend.xml > firstlogon
 
 # utiliser des images custom
-[windows-personnalisé.md](custom image)
+[custom image](windows-personnalisé.md)
 
 # boot from network
 
