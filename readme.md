@@ -10,6 +10,7 @@ permet de démarrer un PC à partir de la carte réseaux et d'installer automati
     - [creer /srv/tftpboot](#creer-srvtftpboot)
     - [symlink dans serveur web](#symlink-dans-serveur-web)
     - [generer les boot ipxe](#generer-les-boot-ipxe)
+    - [samba](#samba)
   - [winPE](#winpe)
   - [customisation de windows](#customisation-de-windows)
   - [installation windows custom](#installation-windows-custom)
@@ -20,16 +21,18 @@ permet de démarrer un PC à partir de la carte réseaux et d'installer automati
 ### prerequis :
 - serveur ubuntu
 - ip fixe sur le serveur ubuntu(editer netplan)
-- wget, curl, git, build-essential   ``apt install wget curl build-essential git``
+- wget, curl, git, build-essential   ``apt install wget curl build-essential git``  
 
 ### installer pihole
 https://pi-hole.net/  
 ```curl -sSL https://install.pi-hole.net | bash```  
-pihole = serveur DNS et DHCP (c'est le serveur DHCP qui permet de fournir les info pour démarrer à partir du réseau)
+pihole = serveur DNS et DHCP (c'est le serveur DHCP qui permet de fournir les info pour démarrer à partir du réseau)  
 
+
+dans l'interface web de pihole activer le DHCP (setting>DHCP>enable) et definir range,gateway (et ajouter un domain genre "fabrik.lan" parce que c'est bien de pouvoir acceder au serveur avec le nom )
 
 ### activer dir-listing de lighttpd 
-pour pouvoir telecharger les fichier du serveur web  
+pour pouvoir telecharger les fichiers avec le serveur web  
 ```lighttpd-enable-mod```  
 choisir dir-listing
 
@@ -37,12 +40,10 @@ choisir dir-listing
 ### setup du serveur DHCP
 [20-pxeconfig.conf](pxe-config/20-pxeconfig.conf) copy dans /etc/dnsmaq.d,  
 [install.ipxe](pxe-config/install.ipxe) copy dans /var/www/html:  
-```
+```bash
 wget -P /etc/dnsmasq.d/ https://raw.githubusercontent.com/yfabrik/pxe-server/main/pxe-config/20-pxeconfig.conf   
 wget -P /var/www/html/ https://raw.githubusercontent.com/yfabrik/pxe-server/main/pxe-config/install.ipxe
 ```
-
-dans l'interface web de pihole activer le dhcp (setting>DHCP>enable et definir range,gateway et ajouter un domain genre "fabrik.lan" parce que c'est bien de pouvoir acceder au serveur avec le nom )
 
 ### creer /srv/tftpboot
 l'endroit ou le serveur pxe va aller chercher les fichier  
@@ -54,13 +55,13 @@ pour que tftpboot soit accessible depuis le serveur web
 ### generer les boot ipxe
 undionly.kpxe, ipxe.efi, wimboot  
 les mettre dans tftpboot  
-wimboot:  
+wimboot (https://github.com/ipxe/wimboot):  
 ```wget -P /srv/tftpboot https://github.com/ipxe/wimboot/releases/latest/download/wimboot```
 
-https://github.com/ipxe/wimboot
+
 
 pour les 2 autres il faut les build:
-```
+```bash
 git clone https://github.com/ipxe/ipxe.git
 cd ipxe/src
 make bin/undionly.kpxe ##bios
@@ -72,7 +73,24 @@ https://ipxe.org/appnote/buildtargets
 https://ipxe.org/download
 
 
+### samba  
+pour les images linux pas besoin.  
+pour windows, winPE à besoin d'avoir acces aux fichiers d'install à travers un dossier partagé.  
+donc faut installer samba
+``apt install samba``  
+rajout à la fin du fichier `/etc/samba/smb.conf` pour créer le dossier partagé
+```
+[install]
+comment = share pour network install
+path=/srv/tftpboot/samba/install
+read only= yes
+guest ok = yes
+browseable =yes
+```
+
 ## winPE
+windows peut pas booter depuis l'iso comme les linux, il faut utiliser winPE, qui lui, peut  
+et depuis l'interface de winPE on peut lancer des scripts pour installer windows.
 [utiliser winPE](winpe.md)
 
 pour le serveur on copy le contenu de `C:\WinPE_amd64\media` quelque part dans tftpboot, là ou install.ipxe le cherche

@@ -46,7 +46,6 @@ Dism /Unmount-Image /MountDir:"C:\WinPE_amd64\mount" /commit
 use /discard au lieu de /commit si on veut pas garder ce qu'on a fait
 
 
-pour le serveur on copie le dossier `C:\WinPE_amd64\media` dans tftpboot (emplacement=install.ipxe)    
 pour le serveur on copy le contenu de `C:\WinPE_amd64\media` quelque part dans tftpboot, là ou install.ipxe le cherche
   
 pour la clé usb : faire une iso  
