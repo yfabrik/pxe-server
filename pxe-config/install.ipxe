@@ -8,6 +8,7 @@ set disks ${server_ip}/samba/install/disks
 set scripts ${server_ip}/samba/install/scripts/internal
 :start
 menu
+item --gap              NIC info : ${pci/${net0/busloc}.0.2} ${pci/${net0/busloc}.2.2}
 item --gap --           -------------WINPE----------------
 item winpe           	winpe	
 item massdriver		winpe avec mass de driver
@@ -32,26 +33,33 @@ kernel ${server_ip}/wimboot
 initrd --name BCD ${disks}/winPE/winpefr/Boot/BCD BCD
 initrd --name boot.sdi ${disks}/winPE/winpefr/Boot/boot.sdi	boot.sdi
 initrd --name boot.wim ${disks}/winPE/winpefr/sources/boot.wim boot.wim
-boot
+boot || goto start
 
 :massdriver
 kernel ${server_ip}/wimboot
 initrd --name BCD ${disks}/winPE/winpe_massdriver/Boot/BCD BCD
 initrd --name boot.sdi ${disks}/winPE/winpe_massdriver/Boot/boot.sdi boot.sdi
 initrd --name boot.wim ${disks}/winPE/winpe_massdriver/sources/boot.wim boot.wim
-boot
+boot goto start
+
+:bureau_ultimate
+set vendor_id ${pci/${net0/busloc}.0.2}
+set device_id ${pci/${net0/busloc}.2.2}
+initrd --name drivers.cab http://192.168.1.250/serve_driver.php?v=${vendor_id}&d=${device_id} drivers.cab
+initrd --name startnet.cmd ${scripts}/bureau_ultimate.bat startnet.cmd
+goto winpe
 
 :mint
 kernel ${disks}/linux/mint-21.2/casper/vmlinuz
 initrd ${disks}/linux/mint-21.2/casper/initrd.lz
 imgargs vmlinuz initrd=initrd root=/dev/nfs boot=casper netboot=nfs nfsroot=192.168.1.250:/srv/tftpboot/samba/install/disks/linux/mint-21.2 ip=dhcp --
-boot
+boot || goto start
 
 :kali
 kernel ${server_ip}/kali/live/vmlinuz
 initrd ${server_ip}/kali/live/initrd.img
 imgargs vmlinuz initrd=initrd root=/dev/nfs boot=live netboot=nfs nfsroot=192.168.1.250:/srv/tftpboot/samba/install/disks/linux/kali ip=dhcp --
-boot
+boot ||goto start
 
 :bureau
 initrd --name startnet.cmd ${scripts}/startnet-bureau.cmd startnet.cmd
@@ -76,7 +84,10 @@ reboot
 poweroff
 
 :shell
+echo type exit to go back
 shell
+goto start
+
 
 :exit
 exit
