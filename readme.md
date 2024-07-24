@@ -16,6 +16,7 @@ permet de démarrer un PC à partir de la carte réseaux et d'installer automati
   - [installation windows custom](#installation-windows-custom)
       - [version clé usb](#version-clé-usb)
   - [customisation post install](#customisation-post-install)
+  - [script auto setup iso](#script-auto-setup-iso)
 
 ## SERVEUR HOW TO
 ### prerequis :
@@ -120,3 +121,6 @@ les fichier pourrait etre inclu directement dans le fichier .wim, mais ça néc�
 [customisation ](personnalisation.md)
 
 
+## script auto setup iso
+[setup-iso](src/setup-image.sh)
+script pour monter les iso et ajouter les lignes dans install.ipxe, ou les demonter si l'iso est deja use
