@@ -1,0 +1,21 @@
+#!ipxe
+
+set menu-timeout 300000
+set submenu-timeout ${menu-timeout}
+isset ${menu-default} || set menu-default shell
+
+:start
+menu
+item --gap              NIC info : ${pci/${net0/busloc}.0.2} ${pci/${net0/busloc}.2.2}
+item --gap --           -------------WINPE----------------
+item --default netboot            netboot.xyz
+item shell              shell
+
+choose --timeout ${menu-timeout} --default ${menu-default} target && goto ${target}
+
+:netboot
+iseq $(platform) efi && chain --autofree http://boot.netboot.xyz/ipxe/netboot.xyz.efi || chain --autofree http://boot.netboot.xyz/ipxe/netboot.xyz.lkrn
+
+:shell
+shell
+goto start
