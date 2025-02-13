@@ -4,18 +4,69 @@ set menu-timeout 300000
 set submenu-timeout ${menu-timeout}
 isset ${menu-default} || set menu-default shell
 
+set server_ip http://${next-server}/tftpboot
+set disks ${server_ip}/export/disks/ 
+set scripts ${server_ip}/export/scripts
+set drivers ${server_ip}/export/drivers
+
 :start
 menu
 item --gap              NIC info : ${pci/${net0/busloc}.0.2} ${pci/${net0/busloc}.2.2}
 item --gap --           -------------WINPE----------------
-item --default netboot            netboot.xyz
+item winpe              winPE
+item bureau             install bureau
+item bureau_driver      install bureau et ajoute network driver
+install charles         install pc charles
+
+item --gap --           --------------LINUX---------------
+
+item --gap --           --------------UTILS---------------
+item netboot            netboot.xyz
+item local              boot local disk
 item shell              shell
+item shutdown           shutdown
+item reboot             reboot
 
 choose --timeout ${menu-timeout} --default ${menu-default} target && goto ${target}
 
 :netboot
-iseq $(platform) efi && chain --autofree http://boot.netboot.xyz/ipxe/netboot.xyz.efi || chain --autofree http://boot.netboot.xyz/ipxe/netboot.xyz.lkrn
+iseq ${platform} efi && chain --autofree http://boot.netboot.xyz/ipxe/netboot.xyz.efi || chain --autofree http://boot.netboot.xyz/ipxe/netboot.xyz.lkrn
+
+########## WINDOWS ###############
+:winpe
+kernel ${server_ip}/wimboot 
+initrd --name BCD ${disks}/winPE/Boot/BCD BCD
+initrd --name boot.sdi ${disks}/winPE/Boot/boot.sdi boot.sdi
+initrd --name boot.wim ${disks}/winPE/sources/boot.wim boot.wim
+boot
+
+:bureau
+initrd --name startnet.cmd ${scripts}/install_bureau.bat startnet.cmd
+goto winpe
+
+:bureau_driver
+set vendor_id ${pci/${net0/busloc}.0.2}
+set device_id ${pci/${net0/busloc}.2.2}
+initrd --name drivers.cab http://192.168.1.250/serve_driver.php?v=${vendor_id}&d=${device_id} drivers.cab
+goto bureau
+
+charles:
+initrd --name startnet.cmd ${scripts}/charles.bat startnet.cmd
+goto bureau_drivers
+####### LINUX ##########
+
+####### UTILS ##########
+:local
+#sanboot --no-describe --drive 0x80
+exit 1
 
 :shell
+echo type exit to go back
 shell
 goto start
+
+:shutdown
+poweroff
+
+:reboot
+reboot

@@ -10,6 +10,7 @@ FROM pihole/pihole
 RUN mkdir -p /srv/tftpboot
 
 RUN ln -s /etc/lighttpd/conf-available/10-dir-listing.conf /etc/lighttpd/conf-enabled/
+RUN ln -s /etc/lighttpd/conf-available/15-fastcgi-php.conf /etc/lighttpd/conf-enabled/
 RUN ln -s /srv/tftpboot /var/www/html/tftpboot
 
 WORKDIR /srv/tftpboot
