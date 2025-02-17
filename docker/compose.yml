@@ -16,6 +16,7 @@ services:
       - DHCP_START=192.168.1.100
       - DHCP_END=192.168.1.150
       - DHCP_ROUTER=192.168.1.254
+      - VIRTUAL_HOST=serveurpxe
     volumes:
       - ./pihole/20-pxeconfig.conf:/etc/dnsmasq.d/20-pxe.conf
       - ./export/:/srv/tftpboot/export
