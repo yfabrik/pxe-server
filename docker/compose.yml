@@ -2,7 +2,7 @@ services:
   ipxe:
     build:
       context: ./pihole
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     image: fabrik/ipxe
     network_mode: host
     cap_add:
@@ -20,11 +20,12 @@ services:
       - ./pihole/20-pxeconfig.conf:/etc/dnsmasq.d/20-pxe.conf
       - ./export/:/srv/tftpboot/export
       - ./pihole/install.ipxe:/var/www/html/install.ipxe
+      - ./pihole/serve_driver.php:/var/www/html/serve_driver.php
 
   samba:
     build:
       context: ./samba
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     image: fabrik/samba
     ports:
       - 139:139
