@@ -4,18 +4,19 @@ set menu-timeout 300000
 set submenu-timeout ${menu-timeout}
 isset ${menu-default} || set menu-default shell
 
-set server_ip http://${next-server}/tftpboot
-set disks ${server_ip}/export/disks/ 
-set scripts ${server_ip}/export/scripts
-set drivers ${server_ip}/export/drivers
+set server_ip http://${next-server}
+set tftp_root ${server_ip}/tftpboot
+set disks ${tftp_root}/export/disks 
+set scripts ${tftp_root}/export/scripts
+set drivers ${tftp_root}/export/drivers
 
 :start
 menu
 item --gap              NIC info : ${pci/${net0/busloc}.0.2} ${pci/${net0/busloc}.2.2}
 item --gap --           -------------WINPE----------------
 item winpe              winPE
+install famille         install famille
 item bureau             install bureau
-item bureau_driver      install bureau et ajoute network driver
 install charles         install pc charles
 
 item --gap --           --------------LINUX---------------
@@ -34,25 +35,30 @@ iseq ${platform} efi && chain --autofree http://boot.netboot.xyz/ipxe/netboot.xy
 
 ########## WINDOWS ###############
 :winpe
-kernel ${server_ip}/wimboot 
+kernel ${tftp_root}/wimboot 
 initrd --name BCD ${disks}/winPE/Boot/BCD BCD
 initrd --name boot.sdi ${disks}/winPE/Boot/boot.sdi boot.sdi
 initrd --name boot.wim ${disks}/winPE/sources/boot.wim boot.wim
 boot
 
+:famille 
+initrd --name startnet.cmd ${scripts}/install_famille.bat startnet.cmd
+goto drivers
+
 :bureau
 initrd --name startnet.cmd ${scripts}/install_bureau.bat startnet.cmd
-goto winpe
-
-:bureau_driver
-set vendor_id ${pci/${net0/busloc}.0.2}
-set device_id ${pci/${net0/busloc}.2.2}
-initrd --name drivers.cab http://192.168.1.250/serve_driver.php?v=${vendor_id}&d=${device_id} drivers.cab
-goto bureau
+goto drivers
 
 charles:
-initrd --name startnet.cmd ${scripts}/charles.bat startnet.cmd
-goto bureau_drivers
+initrd --name startnet.cmd ${scripts}/install_charles.bat startnet.cmd
+goto drivers
+
+:drivers
+set vendor_id ${pci/${net0/busloc}.0.2}
+set device_id ${pci/${net0/busloc}.2.2}
+initrd --name drivers.cab ${server_ip}/serve_driver.php?v=${vendor_id}&d=${device_id} drivers.cab
+goto winpe
+
 ####### LINUX ##########
 
 ####### UTILS ##########
