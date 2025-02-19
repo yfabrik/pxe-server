@@ -4,7 +4,7 @@ COPY . .
 RUN bash build.sh
 
 
-FROM pihole/pihole
+FROM pihole/pihole:2024.07.0
 
 
 RUN mkdir -p /srv/tftpboot
